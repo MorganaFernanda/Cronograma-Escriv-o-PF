@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cronograma Escrivão PF 2025</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+            flex-wrap: wrap;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+        }
+        
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+        
+        .calendar {
+            padding: 30px;
+        }
+        
+        .week {
+            margin-bottom: 40px;
+        }
+        
+        .week-title {
+            font-size: 1.5em;
+            font-weight: 700;
+            margin-bottom: 20px;
+            padding: 15px 20px;
+            border-radius: 12px;
+            color: white;
+            text-align: center;
+        }
+        
+        .week-1 { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .week-2 { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .week-3 { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .week-4 { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+        .week-final { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+        
+        .days-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .day-card {
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-left: 5px solid;
+        }
+        
+        .day-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+        
+        .day-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .day-date {
+            font-weight: 700;
+            font-size: 1.1em;
+        }
+        
+        .day-weekday {
+            font-size: 0.9em;
+            opacity: 0.7;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .subject {
+            font-weight: 600;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        .topics {
+            list-style: none;
+        }
+        
+        .topics li {
+            padding: 5px 0;
+            padding-left: 20px;
+            position: relative;
+            color: #555;
+            line-height: 1.4;
+        }
+        
+        .topics li::before {
+            content: "▶";
+            position: absolute;
+            left: 0;
+            color: #3498db;
+            font-size: 0.8em;
+        }
+        
+        /* Cores das matérias */
+        .informatica { background: #e8f4fd; border-left-color: #3498db; }
+        .portugues { background: #fdf2e8; border-left-color: #e67e22; }
+        .contabilidade { background: #e8f8f5; border-left-color: #27ae60; }
+        .estatistica { background: #f4e8fd; border-left-color: #9b59b6; }
+        .logica { background: #fef9e7; border-left-color: #f39c12; }
+        .direito { background: #fce8e6; border-left-color: #e74c3c; }
+        .arquivologia { background: #e6f3ff; border-left-color: #2980b9; }
+        .revisao { background: #f0f0f0; border-left-color: #34495e; }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #ecf0f1;
+            border-radius: 4px;
+            margin-top: 15px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, #3498db, #2ecc71);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        
+        .tips {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            margin-top: 30px;
+            border-radius: 15px;
+        }
+        
+        .tips h3 {
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+        
+        .tips ul {
+            list-style: none;
+        }
+        
+        .tips li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .tips li::before {
+            content: "💡";
+            position: absolute;
+            left: 0;
+        }
+        
+        @media (max-width: 768px) {
+            .days-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .legend {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+        }
+        
+        .checkbox {
+            margin-top: 10px;
+        }
+        
+        .checkbox input[type="checkbox"] {
+            margin-right: 8px;
+            transform: scale(1.2);
+        }
+        
+        .checkbox label {
+            font-weight: 600;
+            color: #2c3e50;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 CRONOGRAMA ESCRIVÃO PF 2025</h1>
+            <p>🗓️ Período: 18 de Junho a 17 de Julho (30 dias intensivos)</p>
+        </div>
+        
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color" style="background: #3498db;"></div>
+                <span>Informática</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #e67e22;"></div>
+                <span>Português</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #27ae60;"></div>
+                <span>Contabilidade</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #9b59b6;"></div>
+                <span>Estatística</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #f39c12;"></div>
+                <span>Raciocínio Lógico</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #e74c3c;"></div>
+                <span>Direito</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #2980b9;"></div>
+                <span>Arquivologia</span>
+            </div>
+        </div>
+        
+        <div class="calendar">
+            <!-- SEMANA 1 -->
+            <div class="week">
+                <div class="week-title week-1">
+                    🖥️ SEMANA 1: INFORMÁTICA (Peso Máximo - 30%)
+                </div>
+                <div class="days-grid">
+                    <div class="day-card informatica">
+                        <div class="day-header">
+                            <div class="day-date">18/06</div>
+                            <div class="day-weekday">TERÇA</div>
+                        </div>
+                        <div class="subject">Sistemas Operacionais</div>
+                        <ul class="topics">
+                            <li>Windows: gerenciamento de arquivos e processos</li>
+                            <li>Linux: comandos básicos e permissões</li>
+                            <li>Backup e recuperação de dados</li>
+                            <li>Instalação e configuração de SO</li>
+                        </ul>
+                        <div class="checkbox">
+                            <input type="checkbox" id="day1">
+                            <label for="day1">Concluído</label>
+                        </div>
+                    </div>
+                    
+                    <div class="day-card informatica">
+                        <div class="day-header">
+                            <div class="day-date">19/06</div>
+                            <div class="day-weekday">QUARTA</div>
+                        </div>
+                        <div class="subject">Pacote Office</div>
+                        <ul class="topics">
+                            <li>Word: estilos, sumários automáticos</li>
+                            <li>Excel: fórmulas, formatação condicional</li>
+                            <li>PowerPoint: templates e animações</li>
+                            <li>Integração entre aplicativos</li>
+                        </ul>
+                        <div class="checkbox">
+                            <input type="checkbox" id="day2">
+                            <label for="day2">Concluído</label>
+                        </div>
+                    </div>
+                    
+                    <div class="day-card informatica">
+                        <div class="day-header">
+                            <div class="day-date">20/06</div>
+                            <div class="day-weekday">QUINTA</div>
+                        </div>
+                        <div class="subject">Redes e Internet</div>
+                        <ul class="topics">
+                            <li>Protocolos TCP/IP, DNS, HTTP/HTTPS</li>
+                            <li>Tipos de rede: LAN, WAN, Wi-Fi</li>
+                            <li>VPN e redes privadas</li>
+                            <li>Cabeamento estruturado</li>
+                        </ul>
+                        <div class="checkbox">
+                            <input type="checkbox" id="day3">
+                            <label for="day3">Concluído</label>
+                        </div>
+                    </div>
+                    
+                    <div class="day-card informatica">
+                        <div class="day-header">
+                            <div class="day-date">21/06</div>
+                            <div class="day-weekday">SEXTA</div>
+                        </div>
+                        <div class="subject">Segurança da Informação</div>
+                        <ul class="topics">
+                            <li>Malwares: vírus, trojans, ransomware</li>
+                            <li>Criptografia e certificados digitais</li>
+                            <li>Firewall e antivírus</li>
+                            <li>Phishing e engenharia social</li>
+                        </ul>
+                        <div class="checkbox">
+                            <input type="checkbox" id="day4">
+                            <label for="day4">Concluído</label>
+                        </div>
+                    </div>
+                    
+                    <div class="day-card informatica">
+                        <div class="day-header">
+                            <div class="day-date">22/06</div>
+                            <div class="day-weekday">SÁBADO</div>
+                        </div>
+                        <div class="subject">Banco de Dados</div>
+                        <ul class="topics">
+                            <li>Conceitos fundamentais de BD</li>
+                            <li>SQL básico: SELECT, INSERT, UPDATE</li>
+                            <li>SGBD: MySQL, PostgreSQL, Oracle</li>
+                            <li>Normalização de dados</li>
+                        </ul>
+                        <div class="checkbox">
+                            <input type="checkbox" id="day5">
+                            <label for="day5">Concluído</label>
+                        </div>
+                    </div>
+                    
+                    <div class="day-card informatica">
+                        <div class="day-header">
+                            <div class="day-date">23/06</div>
+                            <div class="day-weekday">DOMINGO</div>
+                        </div>
+                        <div class="subject">Algoritmos e Programação</div>
+                        <ul class="topics">
+                            <li>Lógica de programação</li>
+                            <li>Fluxogramas e pseudocódigo</li>
+                            <li>Estruturas: sequencial, decisão, repetição</li>
+                            <li>Variáveis e tipos de dados</li>
+                        </ul>
+                        <div class="checkbox">
+                            <input type="checkbox" id="day6">
+                            <label for="day6">Concluído</label>
+                        </div>
+                    </div>
+                    
+                    <div class="day-card revisao">
+                        <div class="day-header">
+                            <div class="day-date">24/06</div>
+                            <div class="day-weekday">SEGUNDA</div>
+                        </div>
+                        <div class="subject">Revisão + Simulado</div>
+                        <ul class="topics">
+                            <li>Revisão geral da semana</li>
+                            <li>Simulado: 30 questões de Informática</li>
+                            <li>Correção detalhada</li>
+                            <li>Identificação de pontos fracos</li>
+                        </ul>
+                        <div class="checkbox">
+                            <input type="checkbox" id="day7">
+                            <label for="day7">Concluído</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- SEMANA 2 -->
+            <div class="week">
+                <div class="week-title week-2">
+                    📝 SEMANA 2: PORTUGUÊS (Alta Cobrança - 20%)
+                </div>
+                <div class="days-grid">
+                    <div class="day-card portugues">
+                        <div class="day-header">
+                            <div class="day-date">25/06</div>
+                            <div class="day-weekday">TERÇA</div>
+                        </div>
+                        <div class="subject">Interpretação Textual</div>
+                        <ul class="topics">
+                            <li>Compreensão e interpretação de textos</li>
+                            <li>Tipologia textual (narrativo, descritivo, dissertativo)</li>
+                            <li>Coesão e coerência textual</li>
+                            <li>Figuras de linguagem</li>
+                        </ul>
+                        <div class="checkbox">
+                            <input type="checkbox" id="day8">
+                            <label for="day8">Concluído</label>
+                        </div>
+                    </div>
+                    
+                    <div class="day-card portugues">
+                        <div class="day-header">
+                            <div class="day-date">26/06</div>
+                            <div class="day-weekday">QUARTA</div>
+                        </div>
+                        <div class="subject">Reescrita e Equivalência</div>
+                        <ul class="topics">
+                            <li>Reescrita de frases e parágrafos</li>
+                            <li>Equivalência semântica</li>
+                            <li>Substituição lexical</li>
+                            <li>Paráfrase e síntese</li>
+                        </ul>
+                        <div class="checkbox">
+                            <input type="checkbox" id="day9">
+                            <label for="day9">Concluído</label>
+                        </div>
+                    </div>
+                    
+                    <div class="day-card portugues">
+                        <div class="day-header">
+                            <div class="day-date">27/06</div>
+                            <div class="day-weekday">QUINTA</div>
+                        </div>
+                        <div class="subject">Sintaxe</div>
+                        <ul class="topics">
+                            <li>Concordância verbal e nominal</li>
+                            <li>Regência verbal e nominal</li>
+                            <li>Pronomes relativos</li>
+                            <li>Crase</li>
+                        </ul>
+                        <div class="checkbox">
+                            <input type="checkbox" id="day10">
+                            <label for="day10">Concluído</label>
+                        </div>
+                    </div>
+                    
+                    <div class="day-card portugues">
+                        <div class="day-header">
+                            <div class="day-date">28/06</div>
+                            <div class="day-weekday">SEXTA</div>
+                        </div>
+                        <div class="subject">Pontuação e Ortografia</div>
+                        <ul class="topics">
+                            <li>Sinais de pontuação</li>
+                            <li>Nova ortografia oficial</li>
+                            <li>Acentuação gráfica</li>
+                            <li>Uso do hífen</li>
+                        </ul>
+                        <div class="checkbox">
+                            <input type="checkbox" id="day11">
+                            <label for="day11">Concluído</label>
+                        </div>
+                    </div>
+                    
+                    <div class="day-card portugues">
+                        <div class="day-header">
+                            <div class="day-date">29/06</div>
+                            <div class="day-weekday">SÁBADO</div>
+                        </div>
+                        <div class="subject">Morfologia</div>
+                        <ul class="topics">
+                            <li>Classes de palavras</li>
+                            <li>Flexões nominais e verbais</li>
+                            <li>Formação de palavras</li>
+                            <li>Correspondência oficial</li>
+                        </ul>
+                        <div class="checkbox">
+                            <input type="checkbox" id="day12">
+                            <label for="day12">Concluído</label>
+                        </div>
+                    </div>
+                    
+                    <div class="day-card portugues">
+                        <div class="day-header">
+                            <div class="day-date">30/06</div>
+                            <div class="day-weekday">DOMINGO</div>
+                        </div>
+                        <div class="subject">Redação</div>
+                        <ul class="topics">
+                            <li>Estrutura dissertativa</li>
+                            <li>Tema: "Crimes Cibernéticos"</li>
+                            <li>Argumentação e coesão</li>
+                            <li>Norma culta da língua</li>
+                        </ul>
+                        <div class="checkbox">
+                            <input type="checkbox" id="day13">
+                            <label for="day13">Concluído</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- SEMANA 3 -->
+            <div class="week">
+                <div class="week-title week-3">
+                    📊 SEMANA 3: EXATAS (Contabilidade, Estatística, Lógica)
+                </div>
+                <div class="days-grid">
+                    <div class="day-card contabilidade">
+                        <div class="day-header">
+                            <div class="day-date">01/07</div>
+                            <div class="day-weekday">TERÇA</div>
+                        </div>
+                        <div class="subject">Contabilidade Básica</div>
+                        <ul class="topics">
+                            <li>Princípios contábeis fundamentais</li>
+                            <li>Regime de competência vs caixa</li>
+                            <li>Partidas dobradas</li>
+                            <li>Plano de contas</li>
+                        </ul>
+                        <div class="checkbox">
+                            <input type="checkbox" id="day14">
+                            <label for="day14">Concluído</label>
+                        </div>
+                    </div>
+                    
+                    <div class="day-card contabilidade">
+                        <div class="day-header">
+                            <div class="day-date">02/07</div>
+                            <div class="day-weekday">QUARTA</div>
+                        </div>
+                        <div class="subject">Demonstrações Contábeis</div>
+                        <ul class="topics">
+                            <li>Balanço Patrimonial</li>
+                            <li>DRE - Demonstração do Resultado</li>
+                            <li>Fluxo de Caixa</li>
+                            <li>Análise de indicadores</li>
+                        </ul>
+                        <div class="checkbox">
+                            <input type="checkbox" id="day15">
+                            <label for="day15">Concluído</label>
+                        </div>
+                    </div>
+                    
+                    <div class="day-card estatistica">
+                        <div class="day-header">
+                            <div class="day-date">03/07</div>
+                            <div class="day-weekday">QUINTA</div>
+                        </div>
+                        <div class="subject">Estatística Descritiva</div>
+                        <ul class="topics">
+                            <li>Medidas de tendência central</li>
+                            <li>Medidas de dispersão</li>
+                            <li>Gráficos e tabelas</li>
+                            <li>Distribuição de frequências</li>
+                        </ul>
+                        <div class="checkbox">
+                            <input type="checkbox" id="day16">
+                            <label for="day16">Concluído</label>
+                        </div>
+                    </div>
+                    
+                    <div class="day-card estatistica">
+                        <div class="day-header">
+                            <div class="day-date">04/07</div>
+                            <div class="day-weekday">SEXTA</div>
+                        </div>
+                        <div class="subject">Probabilidade</div>
+                        <ul class="topics">
+                            <li>Conceitos básicos de probabilidade</li>
+                            <li>Eventos independentes e dependentes</li>
+                            <li>Distribuições básicas</li>
+                            <li>Teorema de Bayes</li>
+                        </ul>
+                        <div class="checkbox">
+                            <input type="checkbox" id="day17">
+                            <label for="day17">Concluído</label>
+                        </div>
+                    </div>
+                    
+                    <div class="day-card estatistica">
+                        <div class="day-header">
+                            <div class="day-date">05/07</div>
+                            <div class="day-weekday">SÁBADO</div>
+                        </div>
+                        <div class="subject">Amostragem e Testes</div>
+                        <ul class="topics">
+                            <li>Técnicas de amostragem</li>
+                            <li>Testes de hipóteses</li>
+                            <li>Intervalo de confiança</li>
+                            <li>Correlação e regressão</li>
+                        </ul>
+                        <div class="checkbox">
+                            <input type="checkbox" id="day18">
+                            <label for="day18">Concluído</label>
+                        </div>
+                    </div>
+                    
+                    <div class="day-card logica">
+                        <div class="day-header">
+                            <div class="day-date">06/07</div>
+                            <div class="day-weekday">DOMINGO</div>
+                        </div>
+                        <div class="subject">Raciocínio Lógico I</div>
+                        <ul class="topics">
+                            <li>Proposições e conectivos</li>
+                            <li>Tabelas-verdade</li>
+                            <li>Equivalências lógicas</li>
+                            <li>Negação de proposições</li>
+                        </ul>
+                        <div class="checkbox">
+                            <input type="checkbox" id="day19">
+                            <label for="day19">Concluído</label>
+                        </div>
+                    </div>
+                    
+                    <div class="day-card logica">
+                        <div class="day-header">
+                            <div class="day-date">07/07</div>
+                            <div class="day-weekday">SEGUNDA</div>
+                        </div>
+                        <div class="subject">Raciocínio Lógico II</div>
+                        <ul class="topics">
+                            <li>Argumentação lógica</li>
+                            <li>Quantificadores</li>
+                            <li>Diagramas lógicos</li>
+                            <li>Sequências e padrões</li>
+                        </ul>
+                        <div class="checkbox">
+                            <input type="checkbox" id="day20">
+                            <label for="day20">Concluído</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- SEMANA 4 -->
+            <div class="week">
+                <div class="week-title week-4">
+                    ⚖️ SEMANA 4: DIREITO E LEGISLAÇÃO
+                </div>
+                <div class="days-grid">
+                    <div class="day-card direito">
+                        <div class="day-header">
+                            <div class="day-date">08/07</div>
+                            <div class="day-weekday">TERÇA</div>
+                        </div>
+                        <div class="subject">Direito Administrativo</div>
+                        <ul class="topics">
+                            <li>Atos administrativos</li>
+                            <li>Poderes da administração</li>
+                            <li>Licitações e contratos</li>
+                            <li>Improbidade administrativa</li>
+                        </ul>
+                        <div class="checkbox">
+                            <input type="checkbox" id="day21">
+                            <label for="day21">Concluído</label>
+                        </div>
+                    </div>
+                    
+                    <div class="day-card direito">
+                        <div class="day-header">
+                            <div class="day-date">09/07</div>
+                            <div class="day-weekday">QUARTA</div>
+                        </div>
+                        <div class="subject">Direito Constitucional</div>
+                        <ul class="topics">
+                            <li>Direitos e garantias fundamentais</li>
+                            <li>Separação dos poderes</li>
+                            <li>Organização do Estado</li>
+                            <li>Controle de constitucionalidade</li>
+                        </ul>
+                        <div class="checkbox">
+                            <input type="checkbox" id="day22">
+                            <label for="day22">Concluído</label>
+                        </div>
+                    </div>
+                    
+                    <div class="day-card direito">
+                        <div class="day-header">
+                            <div class="day-date">10/07</div>
+                            <div class="day-weekday">QUINTA</div>
+                        </div>
+                        <div class="subject">Direito Penal</div>
+                        <ul class="topics">
+                            <li>Princípios do direito penal</li>
+                            <li>Aplicação da lei penal</li>
+                            <li>Crime e suas elementares</li>
+                            <li>Prescrição</li>
+                        </ul>
+                        <div class="checkbox">
+                            <input type="checkbox" id="day23">
+                            <label for="day23">Concluído</label>
+                        </div>
+                    </div>
+                    
+                    <div class="day-card direito">
+                        <div class="day-header">
+                            <div class="day-date">11/07</div>
+                            <div class="day-weekday">SEXTA</div>
+                        </div>
+                        <div class="subject">Direito Processual Penal</div>
+                        <ul class="topics">
+                            <li>Inquérito policial</li>
+                            <li>Ação penal pública e privada</li>
+                            <li>Provas no processo penal</li>
+                            <li>Prisões e medidas cautelares</li>
+                        </ul>
+                        <div class="checkbox">
+                            <input type="checkbox" id="day24">
+                            <label for="day24">Concluído</label>
+                        </div>
+                    </div>
+                    
+                    <div class="day-card direito">
+                        <div class="day-header">
+                            <div class="day-date">12/07</div>
+                            <div class="day-weekday">SÁBADO</div>
+                        </div>
+                        <div class="subject">Legislação Especial</div>
+                        <ul class="topics">
+                            <li>Lei de Drogas (11.343/06)</li>
+                            <li>Estatuto do Desarmamento</li>
+                            <li>Lei de Lavagem de Dinheiro</li>
+                            <li>Lei Antiterrorismo</li>
+                        </ul>
+                        <div class="checkbox">
+                            <input type="checkbox" id="day25">
+                            <label for="day25">Concluído</label>
+                        </div>
+                    </div>
+                    
+                    <div class="day-card direito">
+                        <div class="day-header">
+                            <div class="day-date">13/07</div>
+                            <div class="day-weekday">DOMINGO</div>
+                        </div>
+                        <div class="subject">Direitos Humanos</div>
+                        <ul class="topics">
+                            <li>Declaração Universal dos DH</li>
+                            <li>Convenção Americana (Pacto San José)</li>
+                            <li>Sistema Interamericano</li>
+                            <li>Proteção dos direitos fundamentais</li>
+                        </ul>
+                        <div class="checkbox">
+                            <input type="checkbox" id="day26">
+                            <label for="day26">Concluído</label>
+                        </div>
+                    </div>
+                    
+                    <div class="day-card arquivologia">
+                        <div class="day-header">
+                            <div class="day-date">14/07</div>
+                            <div class="day-weekday">SEGUNDA</div>
+                        </div>
+                        <div class="subject">Arquivologia I</div>
+                        <ul class="topics">
+                            <li>Gestão de documentos</li>
+                            <li>Ciclo vital dos documentos</li>
+                            <li>Classificação e arquivamento</li>
+                            <li>Tabela de temporalidade</li>
+                        </ul>
+                        <div class="checkbox">
+                            <input type="checkbox" id="day27">
+                            <label for="day27">Concluído</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- SEMANA FINAL -->
+            <div class="week">
+                <div class="week-title week-final">
+                    🎯 FINALIZAÇÃO: REVISÃO E SIMULADOS
+                </div>
+                <div class="days-grid">
+                    <div class="day-card arquivologia">
+                        <div class="day-header">
+                            <div class="day-date">15/07</div>
+                            <div class="day-weekday">TERÇA</div>
+                        </div>
+                        <div class="subject">Arquivologia II</div>
+                        <ul class="topics">
+                            <li>Digitalização de documentos</li>
+                            <li>Preservação digital</li>
+                            <li>Lei de Acesso à Informação</li>
+                            <li>LGPD e documentos</li>
+                        </ul>
+                        <div class="checkbox">
+                            <input type="checkbox" id="day28">
+                            <label for="day28">Concluído</label>
+                        </div>
+                    </div>
+                    
+                    <div class="day-card revisao">
+                        <div class="day-header">
+                            <div class="day-date">16/07</div>
+                            <div class="day-weekday">QUARTA</div>
+                        </div>
+                        <div class="subject">Simulado Final</div>
+                        <ul class="topics">
+                            <li>Simulado completo: 120 questões</li>
+                            <li>Redação tema surpresa</li>
+                            <li>Cronometragem real da prova</li>
+                            <li>Correção detalhada</li>
